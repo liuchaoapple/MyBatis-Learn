@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomudi.mybatis.mapper.EmployeeMapper">
+    <!--
+        namespace:命名空间,绑定接口和本xml文件
+        id：唯一标识
+        resultType:返回值类型
+        #{id}:从传过来的参数重取出id值
+    -->
+    <!--public Employee getEmpById(Integer id);-->
+
+    <!--
+        databaseId mybatis-config.xml文件中定义的数据库厂商别名
+    -->
+    <select id="getEmpById" resultType="emp">
+        select id,last_name lastName,email,gender from tbl_employee where id = #{id}
+    </select>
+
+    <!--useGeneratedKeys:使用自增主键获取策略-->
+    <!--keyProperty：指定对应的主键属性-->
+    <insert id="addEmp" parameterType="emp" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_employee(last_name,email,gender)
+        values(#{lastName},#{email},#{gender})
+    </insert>
+
+    <!--<insert id="addEmp" parameterType="emp" useGeneratedKeys="true" keyProperty="id">-->
+        <!--&lt;!&ndash;-->
+            <!--keyProperty:查出的主键存放在javabean那个属性。-->
+            <!--order:在主SQL语句执行前执行-->
+            <!--resultType:主键类型-->
+        <!--&ndash;&gt;-->
+        <!--<selectKey keyProperty="id" order="BEFORE" resultType="Integer">-->
+            <!--&lt;!&ndash;编写查询主键id的select语句&ndash;&gt;-->
+            <!--select EMPLOYEE_SEQ.nextval from dual-->
+        <!--</selectKey>-->
+        <!--insert into tbl_employee(last_name,email,gender)-->
+        <!--values(#{lastName},#{email},#{gender})-->
+    <!--</insert>-->
+
+    <!--<insert id="addEmp" parameterType="emp" useGeneratedKeys="true" keyProperty="id">-->
+    <!--&lt;!&ndash;-->
+        <!--keyProperty:查出的主键存放在javabean那个属性。-->
+        <!--order:在主SQL语句执行后执行-->
+        <!--resultType:主键类型-->
+    <!--&ndash;&gt;-->
+    <!--<selectKey keyProperty="id" order="AFTER" resultType="Integer">-->
+    <!--&lt;!&ndash;编写查询主键id的select语句&ndash;&gt;-->
+    <!--select EMPLOYEE_SEQ.currval from dual-->
+    <!--</selectKey>-->
+    <!--insert into tbl_employee(last_name,email,gender)-->
+    <!--values(employees_seq.nextval,#{lastName},#{email},#{gender})-->
+    <!--</insert>-->
+
+    <update id="updateEmp">
+        update tbl_employee
+        set last_name=#{lastName},email=#{email},gender=#{gender}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEmp" parameterType="java.lang.Integer">
+        delete from tbl_employee where id = #{id}
+    </delete>
+
+    <select id="list" resultType="java.util.List">
+        <!--select id,last_name lastName,email,gender from tbl_employee-->
+        <!--select * from tbl_employee-->
+    </select>
+</mapper>
